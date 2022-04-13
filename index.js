@@ -21,11 +21,34 @@ async function run() {
         await client.connect();
         // DATABASE COLLECTION PART
         const database = client.db("cleaning");
-        const Services = database.collection("services");
+        const servicesCollection = database.collection("services");
         console.log('Database connected');
 
-        // const result = await haiku.insertOne(doc);
-        // console.log(`A document was inserted with the _id: ${result.insertedId}`);
+        // SERVICES POST API
+        app.post('/services', async (req, res) => {
+            const newServices = req.body;
+            const result = await servicesCollection.insertOne(newServices);
+            console.log('new services database added', result);
+            res.json(result);
+
+        })
+        // GET API ALL
+        app.get('/services', async (req, res) => {
+            const cursor = servicesCollection.find({});
+            const result = await cursor.toArray();
+            res.json(result);
+        })
+        // GET API ID
+        app.get('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await servicesCollection.findOne(query);
+            res.json(result);
+        })
+
+
+
+
     } finally {
         // await client.close();
     }
