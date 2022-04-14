@@ -62,6 +62,15 @@ async function run() {
             const cursor = reviewsCollection.find({});
             const result = await cursor.toArray();
             res.json(result);
+        });
+
+        // ODER DATABASE
+        const oderCollection = database.collection("order");
+        app.post('/oder', async (req, res) => {
+            const newOder = req.body;
+            const oderResult = await oderCollection.insertOne(newOder);
+            console.log('new oder', oderResult);
+            res.json(oderResult);
         })
 
 
