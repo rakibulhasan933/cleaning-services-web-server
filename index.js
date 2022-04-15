@@ -71,6 +71,20 @@ async function run() {
             const oderResult = await oderCollection.insertOne(newOder);
             console.log('new oder', oderResult);
             res.json(oderResult);
+        });
+        //  GET API
+        app.get('/oder', async (req, res) => {
+            const oderCursor = oderCollection.find({});
+            const oderResult = await oderCursor.toArray();
+            res.json(oderResult);
+        });
+        // ADMIN COLLECTION DATABASE
+        const adminCollection = database.collection("admin");
+        app.post('/makeAdmin', async (req, res) => {
+            const newAdmin = req.body;
+            const adminResult = await adminCollection.insertOne(newAdmin);
+            console.log('new admin', adminResult);
+            res.json(adminResult);
         })
 
 
