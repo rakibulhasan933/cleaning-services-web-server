@@ -45,8 +45,14 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const result = await servicesCollection.findOne(query);
             res.json(result);
-        })
-
+        });
+        // DELETE API
+        app.delete('/deleteServices/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await servicesCollection.deleteOne(query);
+            res.json(result);
+        });
         // REVIEW DATABASE COLLECTION PART
         const reviewsCollection = database.collection("reviews");
 
