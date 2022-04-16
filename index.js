@@ -84,6 +84,20 @@ async function run() {
             const oderResult = await oderCursor.toArray();
             res.json(oderResult);
         });
+        // ID SINGLE GET API
+        app.get('/oder/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await oderCollection.findOne(query);
+            res.json(result);
+        })
+        // DELETE API
+        app.delete('/oder/delete/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await oderCollection.deleteOne(query);
+            res.json(result);
+        })
         // ADMIN COLLECTION DATABASE
         const adminCollection = database.collection("admin");
         app.post('/makeAdmin', async (req, res) => {
