@@ -81,17 +81,18 @@ async function run() {
         });
         //  GET API
         app.get('/oder', async (req, res) => {
-            const oderCursor = oderCollection.find({});
+            const cursor = oderCollection.find({})
+            const oder = await cursor.toArray()
+            res.json(oder);
+        });
+        // EMAIL GET API
+        app.get('/oders', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const oderCursor = oderCollection.find(query);
             const oderResult = await oderCursor.toArray();
             res.json(oderResult);
         });
-        // ID SINGLE GET API
-        app.get('/oder/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const result = await oderCollection.findOne(query);
-            res.json(result);
-        })
         // DELETE API
         app.delete('/oder/delete/:id', async (req, res) => {
             const id = req.params.id;
