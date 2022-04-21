@@ -11,7 +11,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-
 const serviceAccount = JSON.parse(process.env.FIREBASE_ACCOUNT);
 
 admin.initializeApp({
