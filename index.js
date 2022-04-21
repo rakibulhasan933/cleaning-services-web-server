@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const serviceAccount = require("./clean-services-home-firebase-adminsdk.json");
+const serviceAccount = JSON.parse(process.env.FIREBASE_ACCOUNT);
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
