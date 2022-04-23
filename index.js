@@ -11,10 +11,10 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const card = require('./clean-services-home-firebase-adminsdk.json');
+// var serviceAccount = require("path/to/serviceAccountKey.json");
 
 admin.initializeApp({
-    credential: admin.credential.cert(card)
+    credential: admin.credential.applicationDefault()
 });
 
 
