@@ -11,10 +11,10 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// var serviceAccount = require("path/to/serviceAccountKey.json");
+const serviceAccount = require("path/to/google-credentials.json");
 
 admin.initializeApp({
-    credential: admin.credential.applicationDefault()
+    credential: admin.credential.cert(serviceAccount)
 });
 
 
