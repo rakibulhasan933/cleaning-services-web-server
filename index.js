@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const serviceAccount = require("path/to/google-credentials.json");
+const serviceAccount = require(`${process.env.GOOGLE_APPLICATION_CREDENTIALS}`);
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
