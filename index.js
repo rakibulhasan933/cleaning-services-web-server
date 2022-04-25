@@ -11,6 +11,8 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const stripe = require('stripe')(process.env.STRIPE_SECRIT)
+
 admin.initializeApp({
     credential: admin.credential.applicationDefault()
 });
@@ -181,7 +183,18 @@ async function run() {
                 isAdmin = true;
             }
             res.json({ admin: isAdmin })
-        })
+        });
+
+        app.post('/create-checkout-session', async (req, res) => {
+            const paymentInfo = req.body;
+            const amount = paymentInfo.price * 5;
+            const paymentIntent = await stripe.create({
+                currency: 'usd',
+                amount: amount,
+                payment_method_types: ['card']
+            });
+            res.json({ clientSecret: paymentIntent.client_secret });
+        });
 
 
 
