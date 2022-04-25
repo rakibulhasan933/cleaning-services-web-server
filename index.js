@@ -11,6 +11,11 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+<<<<<<< HEAD
+=======
+// const serviceAccount = require(`${process.env.GOOGLE_APPLICATION_CREDENTIALS}`);
+
+>>>>>>> cc581ffd22d97bb686e05984a72baf050d4bc8a7
 admin.initializeApp({
     credential: admin.credential.applicationDefault()
 });
