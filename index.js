@@ -11,10 +11,8 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const card = require('./clean-services-home-firebase-adminsdk.json');
-
 admin.initializeApp({
-    credential: admin.credential.cert(card)
+    credential: admin.credential.applicationDefault()
 });
 
 
@@ -109,6 +107,14 @@ async function run() {
             const oder = await cursor.toArray()
             res.json(oder);
         });
+
+        app.get('/oder/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await oderCollection.findOne(query);
+            res.json(result);
+        });
+
         // EMAIL GET API
         app.get('/oders', async (req, res) => {
             const email = req.query.email;
