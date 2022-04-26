@@ -116,6 +116,18 @@ async function run() {
             const result = await oderCollection.findOne(query);
             res.json(result);
         });
+        app.put('/oder/:id', async (req, res) => {
+            const id = req.params.id;
+            const payment = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    payment: payment
+                }
+            };
+            const result = await oderCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        });
 
         // EMAIL GET API
         app.get('/oders', async (req, res) => {
@@ -184,26 +196,29 @@ async function run() {
             }
             res.json({ admin: isAdmin })
         });
-
-        app.post('/create-checkout-session', async (req, res) => {
-            const paymentInfo = req.body;
-            const amount = paymentInfo.price * 5;
-            const paymentIntent = await stripe.create({
-                currency: 'usd',
-                amount: amount,
-                payment_method_types: ['card']
-            });
-            res.json({ clientSecret: paymentIntent.client_secret });
-        });
-
-
-
-
     } finally {
         // await client.close();
     }
 }
 run().catch(console.dir);
+
+
+app.post('/payment', async (req, res) => {
+    let status, error;
+    const { tok, amount } = req.body;
+    try {
+        await Stripe.charges.create({
+            source: tok.id,
+            amount,
+            currency: 'usd',
+        });
+        status = 'success';
+    } catch (error) {
+        console.log(error);
+        status = 'Failure';
+    }
+    res.json({ error, status });
+});
 
 
 app.get('/', (req, res) => {
