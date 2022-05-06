@@ -183,6 +183,12 @@ async function run() {
             res.json(result);
         });
 
+        app.get('/users', async (req, res) => {
+            const cursor = usersCollection.find({})
+            const result = await cursor.toArray()
+            res.json(result);
+        })
+
         app.put('/users/admin', verifyToken, async (req, res) => {
             const user = req.body;
             const requester = req.decodedEmail;
@@ -209,6 +215,12 @@ async function run() {
             }
             res.json({ admin: isAdmin })
         });
+        // ADMIN PART
+        const adminDatabase = client.db("Admin");
+        const AdminUserCollection = database.collection("user");
+
+
+
     } finally {
         // await client.close();
     }
